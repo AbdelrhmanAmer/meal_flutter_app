@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:meal_app/screens/categories_screen.dart';
 
 void main() {
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
             seedColor: const Color.fromARGB(255, 132, 0, 51),
         ),
         useMaterial3: true,
+        textTheme: GoogleFonts.latoTextTheme(),
       ),
       home: const CategoryScreen(),
     );
