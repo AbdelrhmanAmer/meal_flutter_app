@@ -5,10 +5,12 @@ import 'package:transparent_image/transparent_image.dart';
 class MealItem extends StatelessWidget {
   const MealItem({
     super.key,
-    required this.meal
+    required this.meal,
+    required this.onSelectedMeal
   });
 
   final Meal meal;
+  final void Function(Meal meal) onSelectedMeal;
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +20,7 @@ class MealItem extends StatelessWidget {
       elevation: 10,
       clipBehavior: Clip.hardEdge,
       child: InkWell(
+        onTap: ()=>onSelectedMeal(meal),
         child: Stack(
           children: [
             FadeInImage(
@@ -45,9 +48,32 @@ class MealItem extends StatelessWidget {
                           fontSize: 20
                       ),
                     ),
-                    const SizedBox(height: 12,),
-                    const Row(
-                      children: [ ],
+                    const SizedBox(height: 2,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [ 
+                        Row(
+                          children: [
+                            const Icon(Icons.access_time_outlined,size: 15,),
+                            const SizedBox(width: 10,),
+                            Text('${meal.duration} min', style: const TextStyle(color: Colors.white, fontSize: 13),)
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            const Icon(Icons.work,size: 15,),
+                            const SizedBox(width: 10,),
+                            Text(meal.complexityText, style: const TextStyle(color: Colors.white, fontSize: 13),)
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            const Text('\$', style: TextStyle(color: Colors.white, fontSize: 13),),
+                            const SizedBox(width: 10,),
+                            Text(meal.affordabilityText, style: const TextStyle(color: Colors.white, fontSize: 13),)
+                          ],
+                        ),
+                      ],
                     )
                   ],
                 ),
