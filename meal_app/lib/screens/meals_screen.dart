@@ -18,6 +18,7 @@ class MealsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
+
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -27,7 +28,12 @@ class MealsScreen extends StatelessWidget {
                   onSelectedMeal: (Meal meal){
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                          builder: (ctx)=>MealDetailScreen(meal: meal)
+                          builder: (ctx)=>MealDetailScreen(
+                            meal: meal,
+                            onToggleFavorite: (meal){
+                              // ...
+                            },
+                          )
                       ),
                     );
                   }
