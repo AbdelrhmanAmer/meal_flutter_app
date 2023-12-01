@@ -6,40 +6,47 @@ import 'package:meal_app/widgets/meal_item.dart';
 class MealsScreen extends StatelessWidget {
   const MealsScreen({
     super.key,
-    required this.title,
+    this.title,
     required this.meals
   });
 
-  final String title;
+  final String? title;
   final List<Meal> meals;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return title == null
+        ? content(context)
+        : Scaffold(
       appBar: AppBar(
-        title: Text(title),
-
+        title: Text(title!),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-            children:  meals.map(
-                  (meal) => MealItem(
-                  meal: meal,
-                  onSelectedMeal: (Meal meal){
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                          builder: (ctx)=>MealDetailScreen(
-                            meal: meal,
-                            onToggleFavorite: (meal){
-                              // ...
-                            },
-                          )
-                      ),
-                    );
-                  }
-              ),
-            ) .toList()
-        ),
+      body: content(context),
+    );
+  }
+
+  SingleChildScrollView content(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+          children: meals.map(
+                (meal) =>
+                MealItem(
+                    meal: meal,
+                    onSelectedMeal: (Meal meal) {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (ctx) =>
+                                MealDetailScreen(
+                                  meal: meal,
+                                  onToggleFavorite: (meal) {
+                                    // ...
+                                  },
+                                )
+                        ),
+                      );
+                    }
+                ),
+          ).toList()
       ),
     );
   }
