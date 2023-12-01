@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meal_app/models/meal.dart';
+import 'package:meal_app/widgets/meal_item.dart';
 
 class MealsScreen extends StatelessWidget {
   const MealsScreen({
@@ -17,11 +18,12 @@ class MealsScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(title),
       ),
-      body: Column(
-        children:  meals.map((e) => Text(
-          e.title,
-          style: const TextStyle(color: Colors.grey),
-        )).toList()
+      body: SingleChildScrollView(
+        child: Column(
+            children:  meals.map(
+                    (meal) => MealItem(meal: meal)
+            ) .toList()
+        ),
       ),
     );
   }
