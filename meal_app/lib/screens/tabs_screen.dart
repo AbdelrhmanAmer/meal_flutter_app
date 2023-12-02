@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meal_app/models/meal.dart';
 import 'package:meal_app/screens/categories_screen.dart';
+import 'package:meal_app/screens/filter_screen.dart';
 import 'package:meal_app/screens/meals_screen.dart';
 import 'package:meal_app/widgets/main_drawer.dart';
 
@@ -21,6 +22,17 @@ class _TabsScreenState extends State<TabsScreen> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(message))
     );
+  }
+  void _setScreen(String identifier){
+    if(identifier == "filters"){
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (ctx){
+          return const FiltersScreen();
+        })
+      );
+    }else if(identifier == "meals"){
+      Navigator.of(context).pop();
+    }
   }
   void _toggleFavoriteMeal(Meal meal){
     final bool isExist = _favoriteMeals.contains(meal);
@@ -64,7 +76,7 @@ class _TabsScreenState extends State<TabsScreen> {
         title: Text(activePageTitle),
       ),
       body: activePage,
-      drawer: const MainDrawer(),
+      drawer:  MainDrawer(onSelectScreen: _setScreen,),
       bottomNavigationBar: BottomNavigationBar(
         onTap: _selectPage,
         currentIndex: _selectedPageIndex,
