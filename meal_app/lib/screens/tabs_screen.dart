@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:meal_app/models/meal.dart';
 import 'package:meal_app/screens/categories_screen.dart';
 import 'package:meal_app/screens/meals_screen.dart';
+import 'package:meal_app/widgets/main_drawer.dart';
 
 class TabsScreen extends StatefulWidget {
   const TabsScreen({super.key});
@@ -21,7 +22,6 @@ class _TabsScreenState extends State<TabsScreen> {
       SnackBar(content: Text(message))
     );
   }
-
   void _toggleFavoriteMeal(Meal meal){
     final bool isExist = _favoriteMeals.contains(meal);
     if(isExist){
@@ -36,20 +36,19 @@ class _TabsScreenState extends State<TabsScreen> {
       _showInfoMessage("Marked as a favorite. ");
     }
   }
-
   void _selectPage(int index){
     setState(() {
       _selectedPageIndex = index;
     });
   }
+
+
+
   @override
   Widget build(BuildContext context) {
-    Widget activePage =  CategoryScreen(
-      onToggleFavorite: _toggleFavoriteMeal,
-    );
+    Widget activePage =  CategoryScreen( onToggleFavorite: _toggleFavoriteMeal, );
 
     String activePageTitle = 'Pick your category';
-
     if(_selectedPageIndex == 1){
       setState(() {
         activePage = MealsScreen(
@@ -65,6 +64,7 @@ class _TabsScreenState extends State<TabsScreen> {
         title: Text(activePageTitle),
       ),
       body: activePage,
+      drawer: const MainDrawer(),
       bottomNavigationBar: BottomNavigationBar(
         onTap: _selectPage,
         currentIndex: _selectedPageIndex,
