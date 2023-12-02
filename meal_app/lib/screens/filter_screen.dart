@@ -10,14 +10,48 @@ class FiltersScreen extends StatefulWidget {
 }
 
 class _FiltersScreenState extends State<FiltersScreen> {
+  bool _glutenFreeFilter = false;
+  bool _lactoseFreeFilter = false;
+  bool _veganFreeFilter = false;
+  bool _vegetarianFreeFilter = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Your Filters"),
       ),
-      body: const Column(
-        children: [],
+      body: Column(
+        children: [
+          content(
+              context,
+              'Gluten-free',
+              'Only include gluten-free meals.',
+              _glutenFreeFilter,
+                  (bool value){ setState(()=> _glutenFreeFilter=value ); }
+          ),
+          content(
+              context,
+              'Lactose-free',
+              'Only include lactose-free meals.',
+              _lactoseFreeFilter,
+                  (bool value){ setState(()=> _lactoseFreeFilter=value); }
+          ),
+          content(
+              context,
+              'Vegan-free',
+              'Only include vegan-free meals.',
+              _veganFreeFilter,
+                  (bool value){ setState(()=> _veganFreeFilter=value); }
+          ),
+          content(
+              context,
+              'Vegetarian-free',
+              'Only include vegetarian-free meals.',
+              _vegetarianFreeFilter,
+                  (bool value){ setState(()=> _vegetarianFreeFilter=value); }
+          ),
+        ],
       ),
       drawer: MainDrawer(onSelectScreen: (identifier){
         if(identifier == "meals"){
@@ -31,6 +65,32 @@ class _FiltersScreenState extends State<FiltersScreen> {
         }
       },
       ),
+    );
+  }
+  SwitchListTile content(
+      BuildContext context,
+      String title,
+      String subTitle,
+      bool filter,
+      Function(bool newValue) onChanged
+      ){
+    return SwitchListTile(
+      value: filter,
+      onChanged: onChanged,
+      title: Text(
+        title,
+        style: Theme.of(context).textTheme.titleLarge!.copyWith(
+          color: Theme.of(context).colorScheme.onBackground,
+        ),
+      ),
+      subtitle:  Text(
+        subTitle,
+        style: Theme.of(context).textTheme.labelMedium!.copyWith(
+          color: Theme.of(context).colorScheme.onBackground,
+        ),
+      ),
+      activeColor: Theme.of(context).colorScheme.tertiary,
+      contentPadding: const EdgeInsets.only(left: 34, right: 22),
     );
   }
 }
