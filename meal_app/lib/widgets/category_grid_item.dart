@@ -1,25 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:meal_app/data/dummy_data.dart';
-import 'package:meal_app/models/meal.dart';
-import 'package:meal_app/screens/meals_screen.dart';
 
+import '../models/meal.dart';
+import '../screens/meals_screen.dart';
 import '../models/category.dart';
 
 class CategoryGridItem extends StatelessWidget {
   const CategoryGridItem({
     super.key,
     required this.category,
-    required this.onToggleFavorite
+    required this.onToggleFavorite,
+    required this.availableMeals
   });
 
   final Category category;
   final void Function(Meal meal) onToggleFavorite;
+  final List<Meal> availableMeals;
 
   @override
   Widget build(BuildContext context) {
     return InkWell( // GestureDetector
       onTap: (){
-        final List<Meal> filteredMeals = dummyMeals.where(
+        final List<Meal> filteredMeals = availableMeals
+            .where(
                 (meal) => meal.categories.contains(category.id)
         ).toList();
 
