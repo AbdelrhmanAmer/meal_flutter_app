@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:meal_app/screens/tabs_screen.dart';
-import 'package:meal_app/widgets/main_drawer.dart';
+// import 'package:meal_app/screens/tabs_screen.dart';
+// import 'package:meal_app/widgets/main_drawer.dart';
 
 class FiltersScreen extends StatefulWidget {
   const FiltersScreen({super.key});
 
   @override
   State<FiltersScreen> createState() => _FiltersScreenState();
+}
+
+enum Filter{
+  glutenFree,
+  lactoseFree,
+  veganFree,
+  vegetarianFree
 }
 
 class _FiltersScreenState extends State<FiltersScreen> {
@@ -21,50 +28,61 @@ class _FiltersScreenState extends State<FiltersScreen> {
       appBar: AppBar(
         title: const Text("Your Filters"),
       ),
-      body: Column(
-        children: [
-          content(
-              context,
-              'Gluten-free',
-              'Only include gluten-free meals.',
-              _glutenFreeFilter,
-                  (bool value){ setState(()=> _glutenFreeFilter=value ); }
-          ),
-          content(
-              context,
-              'Lactose-free',
-              'Only include lactose-free meals.',
-              _lactoseFreeFilter,
-                  (bool value){ setState(()=> _lactoseFreeFilter=value); }
-          ),
-          content(
-              context,
-              'Vegan-free',
-              'Only include vegan-free meals.',
-              _veganFreeFilter,
-                  (bool value){ setState(()=> _veganFreeFilter=value); }
-          ),
-          content(
-              context,
-              'Vegetarian-free',
-              'Only include vegetarian-free meals.',
-              _vegetarianFreeFilter,
-                  (bool value){ setState(()=> _vegetarianFreeFilter=value); }
-          ),
-        ],
+      body: WillPopScope(
+        onWillPop: ()async{
+          Navigator.of(context).pop({
+            Filter.glutenFree: _glutenFreeFilter,
+            Filter.lactoseFree: _lactoseFreeFilter,
+            Filter.veganFree: _veganFreeFilter,
+            Filter.vegetarianFree: _vegetarianFreeFilter
+          });
+          return false;
+        },
+        child: Column(
+          children: [
+            content(
+                context,
+                'Gluten-free',
+                'Only include gluten-free meals.',
+                _glutenFreeFilter,
+                    (bool value){ setState(()=> _glutenFreeFilter=value ); }
+            ),
+            content(
+                context,
+                'Lactose-free',
+                'Only include lactose-free meals.',
+                _lactoseFreeFilter,
+                    (bool value){ setState(()=> _lactoseFreeFilter=value); }
+            ),
+            content(
+                context,
+                'Vegan-free',
+                'Only include vegan-free meals.',
+                _veganFreeFilter,
+                    (bool value){ setState(()=> _veganFreeFilter=value); }
+            ),
+            content(
+                context,
+                'Vegetarian-free',
+                'Only include vegetarian-free meals.',
+                _vegetarianFreeFilter,
+                    (bool value){ setState(()=> _vegetarianFreeFilter=value); }
+            ),
+          ],
+        ),
       ),
-      drawer: MainDrawer(onSelectScreen: (identifier){
-        if(identifier == "meals"){
-          Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (ctx){
-                return const TabsScreen();
-              })
-          );
-        }else if(identifier == "filters"){
-          Navigator.of(context).pop();
-        }
-      },
-      ),
+      // drawer: MainDrawer(onSelectScreen: (identifier){
+      //   if(identifier == "meals"){
+      //     Navigator.of(context).pushReplacement(
+      //         MaterialPageRoute(builder: (ctx){
+      //           return const TabsScreen();
+      //         })
+      //     );
+      //   }else if(identifier == "filters"){
+      //     Navigator.of(context).pop();
+      //   }
+      // },
+      // ),
     );
   }
   SwitchListTile content(

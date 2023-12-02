@@ -17,6 +17,13 @@ class _TabsScreenState extends State<TabsScreen> {
 
   final List<Meal> _favoriteMeals = [];
 
+  Map<Filter, bool> _selectedFilters = {
+    Filter.glutenFree: false,
+    Filter.lactoseFree:false,
+    Filter.veganFree: false,
+    Filter.vegetarianFree: false
+  };
+
   _showInfoMessage(String message){
     ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(context).showSnackBar(
@@ -25,11 +32,14 @@ class _TabsScreenState extends State<TabsScreen> {
   }
   void _setScreen(String identifier){
     if(identifier == "filters"){
-      Navigator.of(context).pushReplacement(
+      Navigator.of(context).push(
         MaterialPageRoute(builder: (ctx){
           return const FiltersScreen();
         })
+      ) .then((value) => setState(
+              ()=>_selectedFilters= value)
       );
+
     }else if(identifier == "meals"){
       Navigator.of(context).pop();
     }
