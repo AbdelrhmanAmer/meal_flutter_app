@@ -4,92 +4,59 @@ import 'package:meal_app/providers/filters_provider.dart';
 // import 'package:meal_app/screens/tabs_screen.dart';
 // import 'package:meal_app/widgets/main_drawer.dart';
 
-class FiltersScreen extends ConsumerStatefulWidget {
+class FiltersScreen extends ConsumerWidget {
   const FiltersScreen({ super.key,});
 
   @override
-  ConsumerState<FiltersScreen> createState() => _FiltersScreenState();
-}
-
-class _FiltersScreenState extends ConsumerState<FiltersScreen> {
-  bool _glutenFreeFilter = false;
-  bool _lactoseFreeFilter = false;
-  bool _veganFreeFilter = false;
-  bool _vegetarianFreeFilter = false;
-
-  @override
-  void initState() {
-    super.initState();
-    final Map<Filter, bool> activeFilters = ref.read(filtersProvider);
-    _glutenFreeFilter     = activeFilters[Filter.glutenFree]!;
-    _lactoseFreeFilter    = activeFilters[Filter.lactoseFree]!;
-    _veganFreeFilter      = activeFilters[Filter.veganFree]!;
-    _vegetarianFreeFilter = activeFilters[Filter.vegetarianFree]!;
-  }
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final Map<Filter, bool> activeFilters = ref.watch(filtersProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text("Your Filters"),
       ),
-      body: WillPopScope(
-        onWillPop: ()async{
-          ref.read(filtersProvider.notifier).setFilters({
-            Filter.glutenFree: _glutenFreeFilter,
-            Filter.lactoseFree: _lactoseFreeFilter,
-            Filter.veganFree: _veganFreeFilter,
-            Filter.vegetarianFree: _vegetarianFreeFilter
-          });
-          return true;
-        },
-        child: Column(
+      body:  Column(
           children: [
-            content(
+            customSwitch(
                 context,
                 'Gluten-free',
                 'Only include gluten-free meals.',
-                _glutenFreeFilter,
-                    (bool value){ setState(()=> _glutenFreeFilter=value ); }
+                activeFilters[Filter.glutenFree]!,
+                    (bool value)=>ref
+                        .read(filtersProvider.notifier)
+                        .setFilter(Filter.glutenFree, value)
             ),
-            content(
+            customSwitch(
                 context,
                 'Lactose-free',
                 'Only include lactose-free meals.',
-                _lactoseFreeFilter,
-                    (bool value){ setState(()=> _lactoseFreeFilter=value); }
+                activeFilters[Filter.lactoseFree]!,
+                    (bool value)=> ref
+                        .read(filtersProvider.notifier)
+                        .setFilter(Filter.lactoseFree, value)
             ),
-            content(
+            customSwitch(
                 context,
                 'Vegan-free',
                 'Only include vegan-free meals.',
-                _veganFreeFilter,
-                    (bool value){ setState(()=> _veganFreeFilter=value); }
+                activeFilters[Filter.veganFree]!,
+                    (bool value)=> ref
+                        .read(filtersProvider.notifier)
+                        .setFilter(Filter.veganFree, value)
             ),
-            content(
+            customSwitch(
                 context,
                 'Vegetarian-free',
                 'Only include vegetarian-free meals.',
-                _vegetarianFreeFilter,
-                    (bool value){ setState(()=> _vegetarianFreeFilter=value); }
+                activeFilters[Filter.vegetarianFree]!,
+                    (bool value)=>ref
+                        .read(filtersProvider.notifier)
+                        .setFilter(Filter.vegetarianFree, value)
             ),
           ],
         ),
-      ),
-      // drawer: MainDrawer(onSelectScreen: (identifier){
-      //   if(identifier == "meals"){
-      //     Navigator.of(context).pushReplacement(
-      //         MaterialPageRoute(builder: (ctx){
-      //           return const TabsScreen();
-      //         })
-      //     );
-      //   }else if(identifier == "filters"){
-      //     Navigator.of(context).pop();
-      //   }
-      // },
-      // ),
     );
   }
-  SwitchListTile content(
+  SwitchListTile customSwitch(
       BuildContext context,
       String title,
       String subTitle,
