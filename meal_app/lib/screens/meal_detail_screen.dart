@@ -11,12 +11,10 @@ class MealDetailScreen extends ConsumerWidget {
   final Meal meal;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    void _showInfoMessage(String message){
-      ScaffoldMessenger.of(context).clearSnackBars();
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(message))
-      );
-    }
+    final List<Meal> favoriteMeals = ref.watch(favoritesMealsProvider);
+
+    final bool isFavorite = favoriteMeals.contains(meal);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(meal.title),
@@ -34,7 +32,10 @@ class MealDetailScreen extends ConsumerWidget {
                    )
                  );
               },
-              icon: const Icon( Icons.star),
+              icon: Icon(
+                isFavorite? Icons.star : Icons.star_border_outlined,
+                color: isFavorite? Colors.amber: Colors.white,
+              ),
           )
         ],
       ),
