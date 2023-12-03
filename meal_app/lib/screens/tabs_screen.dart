@@ -20,7 +20,6 @@ class TabsScreen extends ConsumerWidget {
     Widget activePage =  CategoryScreen(
       availableMeals: availableMeals,
     );
-
     String activePageTitle = 'Pick your category';
     if(selectedPageIndex == 1){
       final List<Meal> favoriteMeals = ref.watch(favoritesMealsProvider);
@@ -35,8 +34,8 @@ class TabsScreen extends ConsumerWidget {
       ),
       body: activePage,
       drawer:  MainDrawer(onSelectScreen: (String identifier){
-        Navigator.pop(context);
         if(identifier == "filters"){
+          Navigator.pop(context);
           Navigator.of(context).push(
               MaterialPageRoute(builder: (ctx){
                 return const FiltersScreen();
