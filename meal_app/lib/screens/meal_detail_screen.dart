@@ -32,9 +32,22 @@ class MealDetailScreen extends ConsumerWidget {
                    )
                  );
               },
-              icon: Icon(
-                isFavorite? Icons.star : Icons.star_border_outlined,
-                color: isFavorite? Colors.amber: Colors.white,
+              icon: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 400),
+                transitionBuilder: (child, animation){
+                  return RotationTransition(
+                    turns: Tween<double>(
+                      begin: .8,
+                      end: 1,
+                    ).animate(animation),
+                    child: child,
+                  );
+                },
+                child: Icon(
+                  isFavorite? Icons.star : Icons.star_border_outlined,
+                  color: isFavorite? Colors.amber: Colors.white,
+                  key: ValueKey(isFavorite),
+                ),
               ),
           )
         ],
